@@ -1,4 +1,5 @@
 var util = require('util')
+var isnumber = require('is-number')
 var isarray = require('is-array')
 var isstring = require('is-string')
 var parse = require('./util/parse')
@@ -10,8 +11,8 @@ function Grid(data, opts) {
   opts = opts || {}
 
   opts.background = opts.background || [0.5, 0.5, 0.5]
-  opts.size = opts.size || 10
-  opts.padding = opts.padding || opts.size
+  opts.size = isnumber(opts.size) ? opts.size : 10
+  opts.padding = isnumber(opts.padding) ? opts.padding : opts.size / 2
 
   if (isstring(opts.background)) opts.background = require('parse-color')(opts.background).rgb
 

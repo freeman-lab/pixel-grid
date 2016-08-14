@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/freeman-lab/square-table.git"
+    "url": "git+https://github.com/freeman-lab/pixel-grid.git"
   },
   "keywords": [
     "visualization",
@@ -21,9 +21,9 @@
   "author": "freeman-lab",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/freeman-lab/square-table/issues"
+    "url": "https://github.com/freeman-lab/pixel-grid/issues"
   },
-  "homepage": "https://github.com/freeman-lab/square-table#readme",
+  "homepage": "https://github.com/freeman-lab/pixel-grid#readme",
   "dependencies": {
     "flatten": "^1.0.2",
     "is-array": "^1.0.1",

@@ -18,7 +18,7 @@ var data = Array(rows * columns).fill().map(function () {
 //   [[1, 1, 0], [1, 0, 1]]
 // ]
 
-var pixels = grid(data, {rows: rows, columns: columns, background: [0, 0, 0], size: 10, padding: 1})
+var pixels = grid(data, {rows: rows, columns: columns, background: [0, 0, 0], size: 10})
 
 document.body.appendChild(pixels.canvas)
 
