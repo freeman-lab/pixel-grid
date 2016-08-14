@@ -2,7 +2,7 @@
 
 > render a grid of small squares
 
-Small module for rendering a grid of squares. Use it for data visualization, for art, or just for fun! Uses webgl and built with `regl`, so should be highly performant.
+Small module for rendering a grid of squares. Use it for data visualization, for art, or just for fun! Uses webgl and built with `regl`, so it's highly performant.
 
 ## install
 
@@ -33,7 +33,7 @@ var pixels = grid(data, {
 
 #### `var pixels = require('pixel-grid')(data, opts)`
 
-The `data` are the values to render in each square, and can be passed as a flat or nested aray
+The `data` are the values to render in each square, and can be passed in two ways
 
 - flat array `[a, b, c, d]`
 - nested array `[[a, b], [c, d]]`
