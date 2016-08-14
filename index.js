@@ -12,7 +12,7 @@ function Grid(data, opts) {
 
   opts.background = opts.background || [0.5, 0.5, 0.5]
   opts.size = isnumber(opts.size) ? opts.size : 10
-  opts.padding = isnumber(opts.padding) ? opts.padding : opts.size / 2
+  opts.padding = isnumber(opts.padding) ? opts.padding : 2
 
   if (isstring(opts.background)) opts.background = require('parse-color')(opts.background).rgb
 
@@ -25,22 +25,21 @@ function Grid(data, opts) {
     opts.rows = opts.columns = Math.round(Math.sqrt(data.length))
   }
 
-  if (!opts.width || !opts.height) {
-    opts.width = opts.columns * opts.size + (opts.columns + 1) * opts.padding
-    opts.height = opts.rows * opts.size + (opts.rows + 1) * opts.padding
-  }
+  var width = opts.columns * opts.size + (opts.columns + 1) * opts.padding
+  var height = opts.rows * opts.size + (opts.rows + 1) * opts.padding
 
   var canvas = document.createElement('canvas')
-  canvas.width = opts.width
-  canvas.height = opts.height
-  var aspect = opts.width / opts.height
+  canvas.width = width
+  canvas.height = height
   if (opts.root) opts.root.appendChild(canvas)
 
   var colors = parse(data)
-  var positions = layout(opts.rows, opts.columns, 
-    2 * opts.padding / opts.width, 
-    2 * opts.size / opts.width, 
-    aspect)  
+  var positions = layout(
+    opts.rows, opts.columns, 
+    2 * opts.padding / width, 
+    2 * opts.size / width, 
+    width / height
+  )  
 
   var regl = require('regl')(canvas)
 
@@ -95,6 +94,7 @@ function Grid(data, opts) {
   self._buffer = buffer
   self._draw = draw
   self.canvas = canvas
+  self.frame = regl.frame
 }
 
 Grid.prototype.update = function (data) {

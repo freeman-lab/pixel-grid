@@ -12,7 +12,7 @@ function parse(data) {
   }
 
   if (isstring(data[0])) {
-    data = data.map(function (d) {return color(d)})
+    data = data.map(function (d) {return color(d).rgb})
   }
 
   return data

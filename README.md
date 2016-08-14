@@ -19,15 +19,21 @@ Run this
 ```js
 var grid = require('pixel-grid')
 
-var data = [0, 1, 0, 1, 0, 0, 0, 1, 0]
+var data = [
+  [0, 1, 1, 0], 
+  [1, 0, 0, 1], 
+  [0, 1, 0, 0]
+]
 
 var pixels = grid(data, {
   root: document.body,
-  background: 'gray',
-  rows: 3,
-  columns: 3
+  size: 25
 })
 ```
+
+To see
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG4AAABTCAYAAAB+vzKIAAACJ0lEQVR4Xu3dUW7CMBQEQDg54eSthJT8oMpIu3YKTL8tu8yL94VgwXXbtp+Lv7cTuCrc29Xs8Q8fhdu2bfor2Ne43W7T17rf7481Vq610lDhCpfQfpEoXBHTjitgisoccTcUlbnlRVQWEPcp3JwUMUVljikqc8NjBlE5AdNdZQFVVOaIojI3FJVFwydMUVnQFZU5oqjMDUVl0VBUzsAUlbmqqMwNRWXRUFTOwBSVuaqozA1FZdFQVM7AFJW5qqjMDUVl0VBUzsAUlbnqU1TmU5phpYAj6Cu1i2sdhfvUz61Wni5eaahwhV1wRu9WOIUbC5xxjE1UjusyHKFwQ6LhgN1QVA6pxgP0uLHRyyN2TFH5MtnfA0Vljigqc8NjBlE5AVNUFlBFZY4oKnNDUVk0fMIUlQVdUZkjisrcUFQWDUXlDExRmauKytxQVBYNReUMTFGZq4rK3FBUFg1F5QxMUZmrisrcUFQWDb8vKmfgmXOegCPo82ynzvzx3xC78mOdlWspXGFfnHGiTOEUbixwxmmolfG1ci07bny9DUeIyiHR6wM+/SmNHff6tfDnSDuugLhPYccVMd2c5Jhf8wU1K+/0Vq6lx+Wb4KLHFRD1uCLiPpUel6PqcbnhqZ/96XGFAupxBUQ9roiox/Uw9biepbcDRctTfrfUG/BCBT2rLCDqcT1EPa5nqccVLfW4JqZHXrmmqMwN/8cjr+LrMNUCAUfQFyDPWOIXxgdTvT1Hvh4AAAAASUVORK5CYII=" />
 
 ## usage
 
@@ -46,12 +52,11 @@ Each value `a, b, ...` can be specified in several ways
 
 All the options in `opts` are optional, and include
 
-- `root` a root element to which to append the created canvas
 - `rows` `columns` number of rows and columns in the grid
-- `width` `height` size of canvas in pixels, default = full screen
-- `size` size of each square in pixels, default = 10
-- `padding` spacing between each square in pixels, default = 2
-- `background` color of the background, default = white
+- `root` a root element to which to append the created canvas
+- `size` size of each square in pixels, default `10`
+- `padding` space between each square in pixels, default `2`
+- `background` color of the background as rgb or string, default `[0.25, 0.25, 0.25]`
 
 Grid dimensions are determined as follows
 
@@ -73,4 +78,21 @@ document.body.appendChild(pixels.canvas)
 
 #### `pixels.update(data)`
 
-Update the pixel grid with new data.
+Update the pixel grid with new data
+
+```js
+var grid = require('pixel-grid')
+var pixels = grid([[0, 1], [1, 0]], {root: document.body})
+pixels.update([[1, 0], [0, 1]])
+```
+
+#### `pixel.frame(cb)`
+
+Allows you to provide a callback that will be called on each frame refresh (via raf). This allows you to sync updates with monitor refreshes
+
+```js
+var grid = require('pixel-grid')
+var pixels = grid([[0, 1], [1, 0]], {root: document.body})
+pixels.frame(function () {
+  pixels.update([[Math.random(), Math.random()], [Math.random(), Math.random()]])
+})
