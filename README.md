@@ -46,8 +46,8 @@ The `data` are the values to render in each square, and can be passed in two way
 
 Each value `a, b, ...` can be specified in several ways
 
-- a single number `0.5` which will be interpreted as `[0.5, 0.5, 0.5]`
 - an rgb color `[0, 1, 1]`
+- a single number `0.5` which will be interpreted as `[0.5, 0.5, 0.5]`
 - a color string like `rgb(0, 255, 255)` or `#ffa500`
 
 All the options in `opts` are optional, and include
