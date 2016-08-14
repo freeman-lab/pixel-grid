@@ -64,7 +64,7 @@ Grid dimensions are determined as follows
 - If a flat array is passed, its shape is based on `opts.rows` and `opts.columns`
 - If those are unspecified, we use the largest square grid that contains all values
 
-## properties and methods
+## properties
 
 #### `pixels.canvas`
 
@@ -76,6 +76,8 @@ var pixels = grid([[0, 1], [1, 0]])
 document.body.appendChild(pixels.canvas)
 ```
 
+## methods
+
 #### `pixels.update(data)`
 
 Update the pixel grid with new data
@@ -86,7 +88,7 @@ var pixels = grid([[0, 1], [1, 0]], {root: document.body})
 pixels.update([[1, 0], [0, 1]])
 ```
 
-#### `pixel.frame(cb)`
+#### `pixels.frame(cb)`
 
 Provide a callback for each frame refresh (via raf). Allows you to sync updates with monitor refreshes
 
