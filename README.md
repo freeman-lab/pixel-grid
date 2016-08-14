@@ -2,7 +2,7 @@
 
 > render a grid of small squares
 
-Small module for rendering a grid of squares. Use it for data visualization, for art, or just for fun! Uses webgl and built with `regl`, so it's highly performant.
+Small module for rendering a grid of squares. Handles a wide variety of inputs, and support custom sizing and spacing. Use it for data visualization, for art, or just for fun! Built with webgl and [`regl`](https://github.com/mikolalysenko/regl) so it's highly performant.
 
 ## install
 
