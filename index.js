@@ -1,15 +1,33 @@
 var util = require('util')
-var flatten = require('flatten')
 var isarray = require('is-array')
+var isstring = require('is-string')
+var parse = require('./util/parse')
+var layout = require('./util/layout')
 
-function Table(data, opts) {
-  if (!(this instanceof Table)) return new Table(data, opts)
+function Grid(data, opts) {
+  if (!(this instanceof Grid)) return new Grid(data, opts)
   var self = this
   opts = opts || {}
 
-  opts.size = opts.size || 0.1
-  opts.width = opts.width || 600
-  opts.height = opts.height || 400
+  opts.background = opts.background || [0.5, 0.5, 0.5]
+  opts.size = opts.size || 10
+  opts.padding = opts.padding || opts.size
+
+  if (isstring(opts.background)) opts.background = require('parse-color')(opts.background).rgb
+
+  if (isarray(data[0]) && data[0].length != 3) {
+    opts.rows = data.length
+    opts.columns = data[0].length
+  }
+
+  if (!opts.rows || !opts.columns) {
+    opts.rows = opts.columns = Math.round(Math.sqrt(data.length))
+  }
+
+  if (!opts.width || !opts.height) {
+    opts.width = opts.columns * opts.size + (opts.columns + 1) * opts.padding
+    opts.height = opts.rows * opts.size + (opts.rows + 1) * opts.padding
+  }
 
   var canvas = document.createElement('canvas')
   canvas.width = opts.width
@@ -17,47 +35,22 @@ function Table(data, opts) {
   var aspect = opts.width / opts.height
   if (opts.root) opts.root.appendChild(canvas)
 
-  var rows, columns, aspect
-
-  if (isarray(data[0])) {
-    rows = data.length
-    columns = data[0].length
-    data = flatten(data)
-  } else {
-    if ((!opts.rows) | (!opts.columns)) {
-      throw Error('must specify rows and columns')
-    }
-    rows = opts.rows
-    columns = opts.columns
-    if (rows * columns != data.length) {
-      var msg = util.format(
-        'number of rows and columns %sx%s does not match number of values %s',
-        rows, columns, data.length
-      )
-      throw Error(msg)
-    }
-  }
-
-  var grid = []
-
-  for (var i = 0; i < columns; i++) {
-    for (var j = 0; j < rows; j++) {
-      var x = -1 + (i - 1) * opts.size / aspect + 2 * opts.size / aspect
-      var y = 1 - (j - 1) * opts.size - 2 * opts.size
-      grid.push([x, y])
-    }
-  }
+  var colors = parse(data)
+  var positions = layout(opts.rows, opts.columns, 
+    2 * opts.padding / opts.width, 
+    2 * opts.size / opts.width, 
+    aspect)  
 
   var regl = require('regl')(canvas)
 
-  var draw = regl({
+  var squares = regl({
     vert: `
     precision mediump float;
     attribute vec2 position;
-    attribute float color;
-    varying float vcolor;
+    attribute vec3 color;
+    varying vec3 vcolor;
     void main() {
-      gl_PointSize = 12.0;
+      gl_PointSize = float(${opts.size});
       gl_Position = vec4(position.x, position.y, 0.0, 1.0);
       vcolor = color;
     }
@@ -65,9 +58,9 @@ function Table(data, opts) {
 
     frag: `
     precision mediump float;
-    varying float vcolor;
+    varying vec3 vcolor;
     void main() {
-      gl_FragColor = vec4(0.6 - vcolor, 0.6 - vcolor, 0.6 - vcolor, 1.0);
+      gl_FragColor = vec4(vcolor, 1.0);
     }
     `,
 
@@ -78,31 +71,35 @@ function Table(data, opts) {
 
     primitive: 'points',
 
-    count: rows * columns
+    count: colors.length
   })
 
   var buffer = {
-    position: regl.buffer(grid),
-    color: regl.buffer(data)
+    position: regl.buffer(positions),
+    color: regl.buffer(colors)
   }
 
-  draw({
-    position: buffer.position, 
-    color: buffer.color
-  })
+  var draw = function(positions, colors) {
+    regl.clear({
+      color: opts.background.concat([1])
+    })
+    squares({
+      position: positions, 
+      color: colors
+    })
+  }
+
+  draw(buffer.position, buffer.color)
 
   self._buffer = buffer
   self._draw = draw
   self.canvas = canvas
 }
 
-Table.prototype.update = function (data) {
+Grid.prototype.update = function (data) {
   var self = this
-  data = isarray(data[0]) ? flatten(data) : data
-  self._draw({
-    position: self._buffer.position,
-    color: self._buffer.color(data)
-  })
+  var colors = parse(data)
+  self._draw(self._buffer.position, self._buffer.color(colors))
 }
 
-module.exports = Table
+module.exports = Grid

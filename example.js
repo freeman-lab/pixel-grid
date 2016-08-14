@@ -1,15 +1,33 @@
-var square = require('./index')
+var grid = require('./index')
 
-var data = [0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0]
+// data needs to be a flat list, specify rows and columns explicitly
 
-var table = square(data, {rows: 4, columns: 5})
+// data is either a nested or flat array of floats or hex strings or rgb strings
 
-document.body.appendChild(table.canvas)
+// problem: if i have a nested array, is it because it's 2d or because the entries are rgb values
 
-// setInterval(function () {
-//   var data = Array(4 * 5).fill().map(function () {return Math.round(Math.random())})
-//   table.update(data)
-// }, 100)
+var rows = 10
+var columns = 10
+
+var data = Array(rows * columns).fill().map(function () {
+  return [Math.random(), 1, Math.random()]
+})
+
+// var data = [
+//   [[0, 1, 0], [0, 1, 1]],
+//   [[1, 1, 0], [1, 0, 1]]
+// ]
+
+var pixels = grid(data, {rows: rows, columns: columns, background: [0, 0, 0], size: 10, padding: 1})
+
+document.body.appendChild(pixels.canvas)
+
+setInterval(function () {
+  var data = Array(rows * columns).fill().map(function () {
+    return [Math.random(), 1, Math.random()]
+  })
+  pixels.update(data)
+}, 50)
 
 // var square = require('square-table')
 
@@ -33,3 +51,32 @@ document.body.appendChild(table.canvas)
 // })
 
 // tabe.update([[0, 1], [0, 2]])
+
+// SIZE
+
+// option 1
+
+// specify width and height
+
+// option 2
+
+// this could just be the default
+// specify square size and padding, compute exact size in pixels from that
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
