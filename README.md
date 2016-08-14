@@ -46,9 +46,9 @@ The `data` are the values to render in each square, and can be passed in two way
 
 Each value `a, b, ...` can be specified in several ways
 
-- a single number `0.5` will be interpreted as `[0.5, 0.5, 0.5]`
+- a single number `0.5` which will be interpreted as `[0.5, 0.5, 0.5]`
 - an rgb color `[0, 1, 1]`
-- a color string `rgb(0, 255, 255)` or `#ffa500`
+- a color string like `rgb(0, 255, 255)` or `#ffa500`
 
 All the options in `opts` are optional, and include
 
@@ -88,7 +88,7 @@ pixels.update([[1, 0], [0, 1]])
 
 #### `pixel.frame(cb)`
 
-Allows you to provide a callback that will be called on each frame refresh (via raf). This allows you to sync updates with monitor refreshes
+Provide a callback for each frame refresh (via raf). Allows you to sync updates with monitor refreshes
 
 ```js
 var grid = require('pixel-grid')
