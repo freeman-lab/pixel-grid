@@ -1,3 +1,5 @@
+var tape = require('tape')
+
 // parse should always generate a list of rgb colors
 
 // flat floats
