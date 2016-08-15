@@ -36,5 +36,10 @@
     "mouse-position": "^2.0.1",
     "parse-color": "^1.0.0",
     "regl": "^0.11.0"
+  },
+  "devDependencies": {
+    "standard": "^7.1.2",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.0"
   }
 }
