@@ -1,8 +1,10 @@
 # pixel-grid
 
-> render a grid of small squares
+> render a grid of little squares
 
-Small module for rendering a grid of squares. Handles a wide variety of inputs, and supports custom sizing and spacing. Use it for data visualization, for art, or just for fun! Built with webgl and [`regl`](https://github.com/mikolalysenko/regl) so it's highly performant.
+Small module for rendering a grid of squares. Handles a wide variety of inputs, and supports custom sizing and spacing. Use it for data visualization, for art, or just for fun! Built with webgl and [`regl`](https://github.com/mikolalysenko/regl) so it's pretty fast.
+
+![gif](sample.gif)
 
 ## install
 
@@ -57,6 +59,7 @@ All the options in `opts` are optional, and include
 - `size` size of each square in pixels, default `10`
 - `padding` space between each square in pixels, default `2`
 - `background` color of the background as rgb or string, default `[0.25, 0.25, 0.25]`
+- `formatted` set to true if data is already in canonical form (flat array of rgb colors)
 
 Grid dimensions are determined as follows
 

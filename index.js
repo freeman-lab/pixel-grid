@@ -1,12 +1,13 @@
 var util = require('util')
+var parse = require('parse-color')
 var isnumber = require('is-number')
-var isarray = require('is-array')
 var isstring = require('is-string')
-var parse = require('./util/parse')
+var isarray = require('is-array')
+var convert = require('./util/convert')
 var layout = require('./util/layout')
 
-function Grid(data, opts) {
-  if (!(this instanceof Grid)) return new Grid(data, opts)
+function Pixels(data, opts) {
+  if (!(this instanceof Pixels)) return new Pixels(data, opts)
   var self = this
   opts = opts || {}
 
@@ -14,7 +15,7 @@ function Grid(data, opts) {
   opts.size = isnumber(opts.size) ? opts.size : 10
   opts.padding = isnumber(opts.padding) ? opts.padding : 2
 
-  if (isstring(opts.background)) opts.background = require('parse-color')(opts.background).rgb
+  if (isstring(opts.background)) opts.background = parse(opts.background).rgb
 
   if (isarray(data[0]) && data[0].length != 3) {
     opts.rows = data.length
@@ -33,7 +34,8 @@ function Grid(data, opts) {
   canvas.height = height
   if (opts.root) opts.root.appendChild(canvas)
 
-  var colors = parse(data)
+  var colors = opts.formatted ? data : convert(data)
+
   var positions = layout(
     opts.rows, opts.columns, 
     2 * opts.padding / width, 
@@ -93,14 +95,15 @@ function Grid(data, opts) {
 
   self._buffer = buffer
   self._draw = draw
+  self._formatted = opts.formatted
   self.canvas = canvas
   self.frame = regl.frame
 }
 
-Grid.prototype.update = function (data) {
+Pixels.prototype.update = function (data) {
   var self = this
-  var colors = parse(data)
+  var colors = self._formatted ? data : convert(data)
   self._draw(self._buffer.position, self._buffer.color(colors))
 }
 
-module.exports = Grid
+module.exports = Pixels

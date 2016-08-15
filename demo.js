@@ -1,82 +1,62 @@
 var grid = require('./index')
+var parse = require('parse-color')
+var position = require('mouse-position')
 
-// data needs to be a flat list, specify rows and columns explicitly
+document.body.style.background = 'black'
 
-// data is either a nested or flat array of floats or hex strings or rgb strings
+var rows = Math.floor(window.innerHeight / 16) - 2
+var columns = Math.floor(window.innerWidth / 16) - 1
 
-// problem: if i have a nested array, is it because it's 2d or because the entries are rgb values
+var data = []
 
-var rows = 15
-var columns = 25
+for (var i = 0; i < rows; i++) {
+  for (var j = 0; j < columns; j++) {
+    data.push([0, 0, 0])
+  }
+}
 
-var data = Array(rows * columns).fill().map(function () {
-  return [Math.random(), 1, Math.random()]
+var pixels = grid(data, {
+  root: document.body, 
+  rows: rows, 
+  columns: columns, 
+  size: 15, 
+  padding: 1,
+  background: [0, 0, 0]
 })
 
-// var data = [
-//   [[0, 1, 0], [0, 1, 1]],
-//   [[1, 1, 0], [1, 0, 1]]
-// ]
+var mouse = position(pixels.canvas)
 
-var pixels = grid(data, {rows: rows, columns: columns, size: 15, padding: 1})
+var row, column, rand, color
+var hue = 0
 
-document.body.appendChild(pixels.canvas)
+mouse.on('move', function () {  
+  row = Math.floor(mouse[1] / 16)
+  column = Math.floor(mouse[0] / 16)
+  if (row < rows && column < columns) {
+    hue = (hue + 1) % 360
+    color = parse('hsl(' + hue + ',50, 50)').rgb
+    color = color.map(function (d) {return d / 50})
+    data[row * columns + column] = color
+    data[(row - 1) * columns + column] = color
+    data[Math.min((row + 1) * columns + column, data.length)] = color
+    data[row * columns + (column - 1)] = color
+    data[Math.min(row * columns + (column + 1), data.length)] = color
+    data[(row + 1) * columns - column] = color
+    data[(row + 1) * columns - (column + 1)] = color
+    data[row * columns - (column)] = color
+    data[(row + 1) * columns - (column - 1)] = color
+    data[Math.min((row + 2) * columns - (column), data.length)] = color
+  }
+})
 
 pixels.frame(function () {
-  var data = Array(rows * columns).fill().map(function () {
-    return [Math.random(), 1, Math.random()]
-  })
+  for (var i = 0; i < data.length; i++) {
+    rand = Math.random() * 0.02
+    data[i] = [
+      data[i][0] * 0.95 + rand, 
+      data[i][1] * 0.95 + rand, 
+      data[i][2] * 0.95 + rand
+    ]
+  }
   pixels.update(data)
 })
-
-// var square = require('square-table')
-
-// // option 1
-
-// var table = square([0, 1, 0, 1], {
-//   root: document.body,
-//   rows: 4,
-//   columns: 5,
-//   color: 'green'
-// })
-
-// table.update([[0, 2], [0, 3]])
-
-
-// // option 2
-
-// var table = square([[0, 1], [0, 2]], {
-//   root: document.body, 
-//   color: 'green'
-// })
-
-// tabe.update([[0, 1], [0, 2]])
-
-// SIZE
-
-// option 1
-
-// specify width and height
-
-// option 2
-
-// this could just be the default
-// specify square size and padding, compute exact size in pixels from that
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

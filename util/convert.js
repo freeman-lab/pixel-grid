@@ -2,9 +2,9 @@ var flatten = require('flatten')
 var isarray = require('is-array')
 var isnumber = require('is-number')
 var isstring = require('is-string')
-var color = require('parse-color')
+var parse = require('parse-color')
 
-function parse(data) {
+function convert(data) {
   data = (isarray(data[0]) && data[0].length != 3) ? flatten(data, 1) : data
   
   if (isnumber(data[0])) {
@@ -18,4 +18,4 @@ function parse(data) {
   return data
 }
 
-module.exports = parse
+module.exports = convert
