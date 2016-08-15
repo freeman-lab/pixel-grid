@@ -1,42 +1,45 @@
-var tape = require('tape')
+var test = require('tape')
+var convert = require('./util/convert')
+var layout = require('./util/layout')
 
-// parse should always generate a list of rgb colors
+test('convert flat', function (t) {
+  t.deepEqual(convert([0, 1, 1, 0]),
+    [[0, 0, 0], [1, 1, 1], [1, 1, 1], [0, 0, 0]])
+  t.end()
+})
 
-// flat floats
+test('convert nested', function (t) {
+  t.deepEqual(convert([[0, 1], [1, 0]]),
+    [[0, 0, 0], [1, 1, 1], [1, 1, 1], [0, 0, 0]])
+  t.end()
+})
 
-[0, 1, 1, 0] -> [[0, 0, 0], [1, 1, 1], [0, 0, 0], [1, 1, 1]]
+test('convert flat strings', function (t) {
+  t.deepEqual(convert(['black', 'white', 'white', 'black']),
+    [[0, 0, 0], [1, 1, 1], [1, 1, 1], [0, 0, 0]])
+  t.end()
+})
 
-// nested floats
+test('convert nested strings', function (t) {
+  t.deepEqual(convert([['black', 'white'], ['white', 'black']]),
+    [[0, 0, 0], [1, 1, 1], [1, 1, 1], [0, 0, 0]])
+  t.end()
+})
 
-[
-  [0, 1],
-  [1, 0]
-]
+test('convert flat rgb', function (t) {
+  t.deepEqual(convert([[0, 0, 0], [1, 1, 1], [1, 1, 1], [0, 0, 0]]),
+    [[0, 0, 0], [1, 1, 1], [1, 1, 1], [0, 0, 0]])
+  t.end()
+})
 
--> [[0, 0, 0], [1, 1, 1], [1, 1, 1], [0, 0, 0]]
+test('convert nested rgb', function (t) {
+  t.deepEqual(convert([[[0, 0, 0], [1, 1, 1]], [[1, 1, 1], [0, 0, 0]]]),
+    [[0, 0, 0], [1, 1, 1], [1, 1, 1], [0, 0, 0]])
+  t.end()
+})
 
-// strings
-
-['red', 'green', 'green', 'blue'] -> [[1, 0, 0], [0, 1, 0], [0, 1, 0], [0, 0, 1]]
-
-// nested strings
-
-[
-  ['red', 'green'],
-  ['green', 'blue']
-]
-
--> [[1, 0, 0], [0, 1, 0], [0, 1, 0], [0, 0, 1]]
-
-// flat rgb
-
-[[0, 0, 0], [1, 1, 1], [0, 0, 0], [1, 1, 1]] -> [[0, 0, 0], [1, 1, 1], [0, 0, 0], [1, 1, 1]]
-
-// nested rgb
-
-[
-  [[0, 0, 0], [1, 1, 1]],
-  [[0, 0, 0], [1, 1, 1]]
-]
-
--> [[0, 0, 0], [1, 1, 1], [0, 0, 0], [1, 1, 1]]
+test('layout simple', function (t) {
+  t.deepEqual(layout(2, 2, 0.5, 0.5, 1),
+    [[-0.75, 0.75], [0.25, 0.75], [-0.75, -0.25], [0.25, -0.25]])
+  t.end()
+})

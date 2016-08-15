@@ -4,6 +4,7 @@
   "description": "render a grid of little squares",
   "main": "example.js",
   "scripts": {
+    "test": "standard && tape test.js | tap-spec",
     "start": "budo example.js",
     "bundle": "browserify demo.js -o demo/bundle.js",
     "deploy": "npm run bundle && surge demo pixel-grid.surge.sh"

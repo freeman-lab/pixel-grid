@@ -1,4 +1,3 @@
-var util = require('util')
 var parse = require('parse-color')
 var isnumber = require('is-number')
 var isstring = require('is-string')
@@ -6,7 +5,7 @@ var isarray = require('is-array')
 var convert = require('./util/convert')
 var layout = require('./util/layout')
 
-function Pixels(data, opts) {
+function Pixels (data, opts) {
   if (!(this instanceof Pixels)) return new Pixels(data, opts)
   var self = this
   opts = opts || {}
@@ -17,7 +16,7 @@ function Pixels(data, opts) {
 
   if (isstring(opts.background)) opts.background = parse(opts.background).rgb
 
-  if (isarray(data[0]) && data[0].length != 3) {
+  if (isarray(data[0]) && data[0].length !== 3) {
     opts.rows = data.length
     opts.columns = data[0].length
   }
@@ -37,11 +36,11 @@ function Pixels(data, opts) {
   var colors = opts.formatted ? data : convert(data)
 
   var positions = layout(
-    opts.rows, opts.columns, 
-    2 * opts.padding / width, 
-    2 * opts.size / width, 
+    opts.rows, opts.columns,
+    2 * opts.padding / width,
+    2 * opts.size / width,
     width / height
-  )  
+  )
 
   var regl = require('regl')(canvas)
 
@@ -81,12 +80,12 @@ function Pixels(data, opts) {
     color: regl.buffer(colors)
   }
 
-  var draw = function(positions, colors) {
+  var draw = function (positions, colors) {
     regl.clear({
       color: opts.background.concat([1])
     })
     squares({
-      position: positions, 
+      position: positions,
       color: colors
     })
   }
