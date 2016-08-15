@@ -2,7 +2,7 @@
   "name": "pixel-grid",
   "version": "1.0.0",
   "description": "render a grid of little squares",
-  "main": "example.js",
+  "main": "index.js",
   "scripts": {
     "test": "standard && tape test.js | tap-spec",
     "start": "budo example.js",
