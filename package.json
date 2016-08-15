@@ -5,7 +5,8 @@
   "main": "example.js",
   "scripts": {
     "start": "budo example.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bundle": "browserify demo.js -o demo/bundle.js",
+    "deploy": "npm run bundle && surge demo pixel-grid.surge.sh"
   },
   "repository": {
     "type": "git",

@@ -4,7 +4,7 @@
 
 Small module for rendering a grid of squares. Handles a wide variety of inputs, and supports custom sizing and spacing. Use it for data visualization, for art, or just for fun! Built with webgl and [`regl`](https://github.com/mikolalysenko/regl) so it's pretty fast.
 
-![gif](sample.gif)
+[![gif](sample.gif)](http://pixel-grid.surge.sh/)
 
 ## install
 
