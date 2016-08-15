@@ -1,6 +1,6 @@
 # pixel-grid
 
-[![Latest Version](https://img.shields.io/npm/v/pixel-grid.svg?style=flat-square](https://npmjs.org/package/pixel-grid)
+[![Latest Version](https://img.shields.io/npm/v/pixel-grid.svg?style=flat-square)](https://npmjs.org/package/pixel-grid)
 [![Build Status](https://img.shields.io/travis/freeman-lab/pixel-grid/master.svg?style=flat-square)](https://travis-ci.org/freeman-lab/pixel-grid) 
 
 > render a grid of little squares
