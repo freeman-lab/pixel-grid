@@ -1,5 +1,8 @@
 # pixel-grid
 
+[![Latest Version](https://img.shields.io/npm/v/pixel-grid.svg?style=flat-square](https://npmjs.org/package/pixel-grid)
+[![Build Status](https://img.shields.io/travis/freeman-lab/pixel-grid/master.svg?style=flat-square)](https://travis-ci.org/freeman-lab/pixel-grid) 
+
 > render a grid of little squares
 
 Small module for rendering a grid of squares. Handles a wide variety of inputs, and supports custom sizing and spacing. Use it for data visualization, for art, or just for fun! Built with webgl and [`regl`](https://github.com/mikolalysenko/regl) so it's pretty fast.
