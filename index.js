@@ -14,7 +14,7 @@ function Pixels (data, opts) {
   opts.size = isnumber(opts.size) ? opts.size : 10
   opts.padding = isnumber(opts.padding) ? opts.padding : 2
 
-  if (isstring(opts.background)) opts.background = parse(opts.background).rgb
+  if (isstring(opts.background)) opts.background = parse(opts.background).rgb.map(function (c) { return c / 255 })
 
   if (isarray(data[0]) && data[0].length !== 3) {
     opts.rows = data.length
